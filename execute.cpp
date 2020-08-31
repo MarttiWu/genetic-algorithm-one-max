@@ -8,24 +8,24 @@
 
 #include "execute.hpp"
 
-void execute(const int Algo,const int runs,const int iterations,const int bits,const string filename,const int population,const double Pc, const double Pm){
+void execute(const int Algo,const int runs,const int generations,const int bits,const string filename,const int population,const double Pc, const double Pm){
     ofstream fout,file;
     fout.open("RESULT.txt");
     file.open("data.txt");
-    vector<double> avg(iterations/block);
+    vector<double> avg(generations/block);
     if (filename==""){
         for (int i=0;i<runs;i++){
             fout<<"----------------------------------------"<<endl;
             fout<<"run: "<<i+1<<endl;
             time_t start=0, end=0;
             if (Algo==1){
-                GA *r = new GA(bits,iterations,population,Pc,Pm);
+                GA *r = new GA(bits,generations,population,Pc,Pm);
                 start = time(NULL);
                 r->run();
-                for (int j=0;j<=iterations/block;j++){
+                for (int j=0;j<=generations/block;j++){
                     avg[j] += r->get_record_value(j*block);
                 }
-                fout<<"Best: "<<r->get_record_value(iterations-1)<<endl;
+                fout<<"Best: "<<r->get_record_value(generations-1)<<endl;
                 end = time(NULL);
             }
             double diff = difftime(end, start);
